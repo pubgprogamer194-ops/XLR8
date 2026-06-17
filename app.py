@@ -4,10 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from authlib.integrations.flask_client import OAuth
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')  # FIXED: reads from Railway box
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)  # Forces HTTPS on Railway
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chat.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -19,8 +21,8 @@ login_manager.login_view = 'login'
 oauth = OAuth(app)
 google = oauth.register(
     name='google',
-    client_id=os.environ.get('GOOGLE_CLIENT_ID'),        # FIXED: reads from Railway box
-    client_secret=os.environ.get('GOOGLE_CLIENT_SECRET'), # FIXED: reads from Railway box
+    client_id=os.environ.get('GOOGLE_CLIENT_ID'),
+    client_secret=os.environ.get('GOOGLE_CLIENT_SECRET'),
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
@@ -37,7 +39,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(200))
     google_id = db.Column(db.String(100), unique=True, nullable=True)
     picture = db.Column(db.String(200), default='')
-    login_type = db.Column(db.String(20))  # 'google' or 'email'
+    login_type = db.Column(db.String(20))
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -149,7 +151,7 @@ def logout():
 @app.route('/admin')
 @login_required
 def admin():
-    if current_user.email != 'your-email@example.com':  # Replace with your email
+    if current_user.email != 'your-email@example.com':
         return 'Not authorized'
     
     users = User.query.all()
