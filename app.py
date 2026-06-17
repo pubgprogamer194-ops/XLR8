@@ -8,7 +8,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 
 app = Flask(__name__)
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)  # Forces HTTPS on Railway
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chat.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -23,13 +23,10 @@ google = oauth.register(
     name='google',
     client_id=os.environ.get('GOOGLE_CLIENT_ID'),
     client_secret=os.environ.get('GOOGLE_CLIENT_SECRET'),
-    access_token_url='https://accounts.google.com/o/oauth2/token',
-    access_token_params=None,
-    authorize_url='https://accounts.google.com/o/oauth2/auth',
-    authorize_params=None,
-    api_base_url='https://www.googleapis.com/oauth2/v1/',
-    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
-    client_kwargs={'scope': 'openid email profile'},
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_kwargs={
+        'scope': 'openid email profile'
+    }
 )
 
 class User(UserMixin, db.Model):
@@ -119,21 +116,26 @@ def register():
 
 @app.route('/google')
 def google_login():
-    redirect_uri = url_for('google_callback', _external=True)
+    redirect_uri = url_for('google_callback', _external=True, _scheme='https')
     return google.authorize_redirect(redirect_uri)
 
 @app.route('/callback')
 def google_callback():
     token = google.authorize_access_token()
-    resp = google.get('userinfo')
-    user_info = resp.json()
+    user_info = token.get('userinfo')
     
-    user = User.query.filter_by(google_id=user_info['id']).first()
+    if not user_info:
+        return 'Failed to get user info from Google'
+    
+    user = User.query.filter_by(google_id=user_info.get('sub')).first()
+    if not user:
+        user = User.query.filter_by(email=user_info.get('email')).first()
+    
     if not user:
         user = User(
-            google_id=user_info['id'],
-            email=user_info['email'],
-            name=user_info['name'],
+            google_id=user_info.get('sub'),
+            email=user_info.get('email'),
+            name=user_info.get('name'),
             picture=user_info.get('picture', ''),
             login_type='google'
         )
