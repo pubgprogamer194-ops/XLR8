@@ -4,46 +4,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>XLR8</title>
     <style>
-        :root {
-            --bg: #000000; --text: #ffffff; --card: #111111; --border: #1a1a1a;
-            --input-bg: #111111; --input-border: #222222; --placeholder: #555555;
-            --button-bg: #ffffff; --button-text: #000000; --button-hover: #dddddd;
-            --nick-color: #888888; --status: #666666;
-        }
-        [data-theme="light"] {
-            --bg: #ffffff; --text: #000000; --card: #f5f5f5; --border: #e0e0e0;
-            --input-bg: #f5f5f5; --input-border: #e0e0e0; --placeholder: #999999;
-            --button-bg: #000000; --button-text: #ffffff; --button-hover: #333333;
-            --nick-color: #666666; --status: #999999;
-        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    html {
-        touch-action: manipulation;
-        -webkit-touch-callout: none;
-    }
-    
-    body {
-        overflow-x: hidden;
-        width: 100vw;
-    }
-    
-    /* rest of your CSS... */
+        
+        html {
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
         }
+        
+        body {
+            overflow-x: hidden;
+            width: 100vw;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+        
         .header {
             padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #1a1a1a;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
             min-height: 50px;
         }
-        .logo { font-size: 18px; font-weight: 600; letter-spacing: 2px; color: var(--text); }
-        .user-info { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-        .user-info img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+        
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+        
+        .user-info img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
         #messages {
             flex: 1;
             overflow-y: auto;
@@ -53,51 +64,62 @@
             gap: 8px;
             -webkit-overflow-scrolling: touch;
         }
+        
         .message {
             max-width: 95%;
             padding: 10px 14px;
-            background: var(--card);
-            border: 1px solid var(--border);
+            background: #111111;
+            border: 1px solid #1a1a1a;
             border-radius: 10px;
             line-height: 1.4;
             font-size: 15px;
             word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
+        
         .message .nick {
             font-size: 11px;
             font-weight: 600;
-            color: var(--nick-color);
+            color: #888888;
             margin-bottom: 3px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        .message .text { color: var(--text); font-size: 15px; }
+        
+        .message .text {
+            color: #ffffff;
+            font-size: 15px;
+        }
+        
         .input-area {
             padding: 10px 12px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid #1a1a1a;
             display: flex;
             gap: 8px;
             align-items: center;
             flex-shrink: 0;
-            background: var(--bg);
+            background: #000000;
             min-height: 60px;
         }
+        
         #msgInput {
             flex: 1;
             padding: 12px 16px;
-            background: var(--input-bg);
-            border: 1px solid var(--input-border);
+            background: #111111;
+            border: 1px solid #222222;
             border-radius: 20px;
-            color: var(--text);
+            color: #ffffff;
             font-size: 16px;
             outline: none;
             min-height: 44px;
             -webkit-appearance: none;
         }
+        
         button {
             padding: 12px 18px;
-            background: var(--button-bg);
-            color: var(--button-text);
+            background: #ffffff;
+            color: #000000;
             border: none;
             border-radius: 20px;
             font-size: 14px;
@@ -108,7 +130,6 @@
             -webkit-appearance: none;
         }
         
-        /* iPhone 6S specific (375px width) */
         @media (max-width: 375px) {
             .logo { font-size: 16px; }
             .user-info { font-size: 12px; }
@@ -127,7 +148,7 @@
         <div class="user-info">
             {% if user.picture %}<<img src="{{ user.picture }}">{% endif %}
             <span>{{ user.name }}</span>
-            <a href="/logout" style="color: var(--text); text-decoration: none; font-size: 12px;">Logout</a>
+            <a href="/logout" style="color: #ffffff; text-decoration: none; font-size: 12px;">Logout</a>
         </div>
     </div>
     <div id="messages">
