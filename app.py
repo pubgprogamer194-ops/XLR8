@@ -160,7 +160,7 @@ LOGIN_HTML = '''<!DOCTYPE html>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: #000000;
             color: #ffffff;
             height: 100vh;
@@ -174,79 +174,89 @@ LOGIN_HTML = '''<!DOCTYPE html>
             padding: 40px;
         }
         .logo {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-align: center;
             margin-bottom: 8px;
+            color: #ffffff;
         }
         .subtitle {
             color: #666666;
             text-align: center;
             font-size: 14px;
             margin-bottom: 40px;
+            font-weight: 400;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 16px 18px;
             background: #111111;
-            border: 1px solid #222222;
+            border: 1px solid #1a1a1a;
             border-radius: 12px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 15px;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
+            font-family: inherit;
         }
         input:focus {
-            border-color: #444444;
+            border-color: #333333;
+            background: #141414;
         }
         input::placeholder {
             color: #555555;
         }
-        button[type="submit"] {
+        .submit-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: #ffffff;
             color: #000000;
             border: none;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
+            transition: all 0.2s;
+            margin-top: 8px;
+            font-family: inherit;
         }
-        button[type="submit"]:hover {
-            background: #dddddd;
+        .submit-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-1px);
+        }
+        .submit-btn:active {
+            transform: translateY(0);
         }
         .divider {
             display: flex;
             align-items: center;
-            margin: 30px 0;
-            color: #555555;
+            margin: 28px 0;
+            color: #444444;
             font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-weight: 500;
         }
         .divider::before, .divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: #222222;
+            background: #1a1a1a;
         }
         .divider::before { margin-right: 16px; }
         .divider::after { margin-left: 16px; }
         .google-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: #111111;
             color: #ffffff;
-            border: 1px solid #222222;
+            border: 1px solid #1a1a1a;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
@@ -254,29 +264,31 @@ LOGIN_HTML = '''<!DOCTYPE html>
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            font-family: inherit;
         }
         .google-btn:hover {
             background: #1a1a1a;
-            border-color: #333333;
+            border-color: #2a2a2a;
         }
         .google-icon {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
         }
         .footer {
             text-align: center;
-            margin-top: 30px;
-            color: #666666;
+            margin-top: 32px;
+            color: #555555;
             font-size: 14px;
         }
         .footer a {
             color: #ffffff;
             text-decoration: none;
             font-weight: 500;
+            transition: opacity 0.2s;
         }
         .footer a:hover {
-            text-decoration: underline;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -287,12 +299,12 @@ LOGIN_HTML = '''<!DOCTYPE html>
         
         <form method="POST">
             <div class="form-group">
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="email" name="email" placeholder="Email" required autocomplete="email">
             </div>
             <div class="form-group">
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
             </div>
-            <button type="submit">Sign In</button>
+            <button type="submit" class="submit-btn">Sign In</button>
         </form>
         
         <div class="divider">or</div>
@@ -321,7 +333,7 @@ REGISTER_HTML = '''<!DOCTYPE html>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: #000000;
             color: #ffffff;
             height: 100vh;
@@ -335,79 +347,89 @@ REGISTER_HTML = '''<!DOCTYPE html>
             padding: 40px;
         }
         .logo {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-align: center;
             margin-bottom: 8px;
+            color: #ffffff;
         }
         .subtitle {
             color: #666666;
             text-align: center;
             font-size: 14px;
             margin-bottom: 40px;
+            font-weight: 400;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 16px 18px;
             background: #111111;
-            border: 1px solid #222222;
+            border: 1px solid #1a1a1a;
             border-radius: 12px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 15px;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
+            font-family: inherit;
         }
         input:focus {
-            border-color: #444444;
+            border-color: #333333;
+            background: #141414;
         }
         input::placeholder {
             color: #555555;
         }
-        button[type="submit"] {
+        .submit-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: #ffffff;
             color: #000000;
             border: none;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
+            transition: all 0.2s;
+            margin-top: 8px;
+            font-family: inherit;
         }
-        button[type="submit"]:hover {
-            background: #dddddd;
+        .submit-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-1px);
+        }
+        .submit-btn:active {
+            transform: translateY(0);
         }
         .divider {
             display: flex;
             align-items: center;
-            margin: 30px 0;
-            color: #555555;
+            margin: 28px 0;
+            color: #444444;
             font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-weight: 500;
         }
         .divider::before, .divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: #222222;
+            background: #1a1a1a;
         }
         .divider::before { margin-right: 16px; }
         .divider::after { margin-left: 16px; }
         .google-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: #111111;
             color: #ffffff;
-            border: 1px solid #222222;
+            border: 1px solid #1a1a1a;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
@@ -415,29 +437,31 @@ REGISTER_HTML = '''<!DOCTYPE html>
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            font-family: inherit;
         }
         .google-btn:hover {
             background: #1a1a1a;
-            border-color: #333333;
+            border-color: #2a2a2a;
         }
         .google-icon {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
         }
         .footer {
             text-align: center;
-            margin-top: 30px;
-            color: #666666;
+            margin-top: 32px;
+            color: #555555;
             font-size: 14px;
         }
         .footer a {
             color: #ffffff;
             text-decoration: none;
             font-weight: 500;
+            transition: opacity 0.2s;
         }
         .footer a:hover {
-            text-decoration: underline;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -448,15 +472,15 @@ REGISTER_HTML = '''<!DOCTYPE html>
         
         <form method="POST">
             <div class="form-group">
-                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="text" name="name" placeholder="Your Name" required autocomplete="name">
             </div>
             <div class="form-group">
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="email" name="email" placeholder="Email" required autocomplete="email">
             </div>
             <div class="form-group">
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password" required autocomplete="new-password">
             </div>
-            <button type="submit">Create Account</button>
+            <button type="submit" class="submit-btn">Create Account</button>
         </form>
         
         <div class="divider">or</div>
