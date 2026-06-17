@@ -8,6 +8,11 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 
 app = Flask(__name__)
+import os
+print("Current directory:", os.getcwd())
+print("Templates exists:", os.path.exists('templates'))
+if os.path.exists('templates'):
+    print("Files in templates:", os.listdir('templates'))
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chat.db'
